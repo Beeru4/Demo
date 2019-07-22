@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+		"-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.beerus.dao.EdocEntryDao">
+
+	<!-- 分页查询 -->
+	<select id="listEdocEntry" resultType="EdocEntry">
+		SELECT *
+		FROM edoc_entry
+		<where>
+			<if test="edocEntry.categoryId != null">
+				 `categoryId` = #{edocEntry.categoryId}
+			</if>
+		</where>
+		ORDER BY id DESC
+		LIMIT #{currPageNo},#{pageSize}
+	</select>
+	
+	
+	<!-- 根据条件查找 -->
+	<select id="getEdocEntryById" resultType="EdocEntry">
+		SELECT * FROM `edoc_entry` WHERE id = #{id}
+	</select>
+	
+	<!-- 查询总行数 -->
+	<select id="count_Rows" resultType="Integer">
+		SELECT COUNT(1)
+		FROM edoc_entry
+		<where>
+			<if test="categoryId != null">
+				 `categoryId` = #{categoryId}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 添加 -->
+	<insert id="saveEdocEntry">
+		INSERT INTO `edoc_entry`
+		VALUES(DEFAULT,#{categoryId},#{title},#{summary},#{uploaduser},#{createdate})
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="modifyEdocEntry">
+		UPDATE `edoc_entry`
+		SET categoryId = #{categoryId},
+			title = #{title},
+			summary = #{summary},
+			uploaduser = #{uploaduser},
+			createDate = #{createdate}
+			WHERE `id` = #{id}
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="delEdocEntry">
+		DELETE FROM `edoc_entry` WHERE `id` = #{id}
+	</delete>
+	
+	
+</mapper>
